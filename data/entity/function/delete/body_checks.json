@@ -1,0 +1,21 @@
+{
+  "success": {
+    "no_error": true,
+    "must_have": [
+      "id",
+      "data",
+      "location_id",
+      "time"
+    ],
+    "echo": [
+      "id"
+    ],
+    "detect_success": false
+  },
+  "failure": {
+    "error_required": true,
+    "error_code": null
+  },
+  "_success_desc": "删除成功返回被删实体对象（同 get 结构：id/location_id/time/data{type,value}）；随后 GET 该实体应确认不存在(404)。",
+  "_failure_desc": "失败响应体 {error, error_code}。常见：实体不存在 → 404 + 210001；路径参数非法 → 400 + 100001。"
+}

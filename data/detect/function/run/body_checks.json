@@ -1,0 +1,91 @@
+{
+  "success": {
+    "no_error": true,
+    "must_have": [
+      "Context",
+      "Result"
+    ],
+    "echo": [],
+    "detect_success": true
+  },
+  "failure": {
+    "error_required": true,
+    "error_code": "400"
+  },
+  "cases": {
+    "DT-TYPE-VALID-001": {
+      "success": {
+        "detect_any_of": [
+          {
+            "path": "Result.Faces",
+            "non_empty": true
+          },
+          {
+            "path": "Result.NonMotorVehicles[].HasFace",
+            "equals": true
+          },
+          {
+            "path": "Result.NonMotorVehicles[].Passengers",
+            "non_empty": true
+          },
+          {
+            "path": "Result.Pedestrian[].Face",
+            "non_empty": true
+          }
+        ]
+      }
+    },
+    "DT-TYPE-VALID-003": {
+      "success": {
+        "result_field": "NonMotorVehicles"
+      }
+    },
+    "DT-TYPE-VALID-004": {
+      "success": {
+        "result_field": "Pedestrian"
+      }
+    },
+    "DT-TYPE-VALID-005": {
+      "success": {
+        "result_field": "Faces"
+      }
+    },
+    "DT-TYPE-VALID-002": {
+      "success": {
+        "motor_required": true
+      }
+    },
+    "DT-TYPE-VALID-006": {
+      "success": {
+        "vehicle_required": true
+      }
+    },
+    "DT-UO-VALID-001": {
+      "success": {
+        "detect_all_empty": [
+          "Result.Faces",
+          "Result.NonMotorVehicles",
+          "Result.Pedestrian"
+        ]
+      }
+    },
+    "DT-ROI-VALID-001": {
+      "success": {
+        "detect_all_empty": [
+          "Result.Faces",
+          "Result.NonMotorVehicles",
+          "Result.Pedestrian"
+        ]
+      }
+    },
+    "DT-IO-VALID-001": {
+      "success": {
+        "detect_all_empty": [
+          "Result.Faces",
+          "Result.NonMotorVehicles",
+          "Result.Pedestrian"
+        ]
+      }
+    }
+  }
+}

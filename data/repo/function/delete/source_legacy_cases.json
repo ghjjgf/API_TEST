@@ -1,0 +1,74 @@
+[
+  {
+    "case_id": "DR-VALID-001",
+    "name": "删除已存在的比对库",
+    "module": "repo",
+    "action": "delete",
+    "parameter": "repo_id",
+    "scenario_type": "合法",
+    "method": "DELETE",
+    "path": "/repositories/testrepo",
+    "payload": {
+      "id": "testrepo",
+      "repo_id": "testrepo"
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "DR-INVALID-001",
+    "name": "删除不存在的比对库",
+    "module": "repo",
+    "action": "delete",
+    "parameter": "repo_id",
+    "scenario_type": "合法",
+    "method": "DELETE",
+    "path": "/repositories/not-exist",
+    "payload": {
+      "id": "testrepo-delete",
+      "repo_id": "not-exist"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "DR-EMPTY-001",
+    "name": "repo_id缺失",
+    "module": "repo",
+    "action": "delete",
+    "parameter": "repo_id",
+    "scenario_type": "非空",
+    "method": "DELETE",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-delete"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "DR-EMPTY-002",
+    "name": "repo_id为空字符串",
+    "module": "repo",
+    "action": "delete",
+    "parameter": "repo_id",
+    "scenario_type": "非空",
+    "method": "DELETE",
+    "path": "/repositories/",
+    "payload": {
+      "id": "testrepo-delete",
+      "repo_id": ""
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "__summary__": {
+      "test_case_total": 4
+    }
+  }
+]

@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>测试汇总报告</title>
+  <style>
+    body{font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:20px; color:#222}
+    .panel{border:1px solid #e2e8f0;border-radius:8px;margin:12px 0;padding:0;overflow:hidden;background:#fff;box-shadow:0 1px 3px rgba(16,24,40,0.04)}
+    .header{cursor:pointer;padding:12px 16px;font-weight:700;background:#f8fafc;border-bottom:1px solid #eef2f7;display:flex;align-items:center;justify-content:space-between}
+    .header .meta{font-weight:500;color:#475569;font-size:0.9em}
+    .content{display:none;padding:12px 16px}
+    pre.ascii{background:#0f172a;color:#e6eef8;padding:12px;border-radius:6px;white-space:pre-wrap;font-family:Menlo,monospace}
+    pre.perf-ascii{background:#f8fafc;color:#0f172a;border:1px solid #dbe5f0;padding:14px 16px;border-radius:6px;white-space:pre;overflow:auto;max-height:720px;font-family:Menlo,Consolas,monospace;font-size:12px;line-height:1.45;tab-size:4}
+    .write-chart{display:flex;align-items:flex-end;gap:6px;min-height:250px;overflow-x:auto;padding:16px 12px 10px;border:1px solid #dbe5f0;border-radius:8px;background:linear-gradient(to top, #f8fafc 0, #ffffff 70%)}
+    .write-column{display:flex;flex-direction:column;align-items:center;min-width:26px}
+    .write-bars{height:180px;display:flex;align-items:flex-end;gap:3px}
+    .write-bar{display:block;width:10px;border-radius:4px 4px 1px 1px;box-shadow:0 0 0 1px rgba(15,23,42,.04)}
+    .write-bar.insert{background:#22c55e}
+    .write-bar.delete{background:#ef4444}
+    .write-tick{font-size:10px;color:#64748b;margin-top:4px}
+    .write-pool{font-size:9px;color:#94a3b8;writing-mode:vertical-rl;margin-top:3px}
+    .write-legend{display:flex;gap:18px;margin:8px 0;color:#475569;font-size:12px}
+    .write-legend .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px}
+    .write-legend .insert{background:#22c55e}
+    .write-legend .delete{background:#ef4444}
+    .meta{color:#6b7280;font-size:0.9em}
+    table{border-collapse:collapse;width:100%}
+    table th, table td{padding:8px;border-bottom:1px solid #eef2f7;text-align:left}
+    /* 左侧导航 */
+    #sidebar{background:#fbfdff;padding:12px;border-radius:8px;border:1px solid #eef2f7}
+    #iface-list{list-style:none;padding-left:0;margin:8px 0}
+    .iface-item{display:flex;align-items:center;justify-content:space-between;padding:8px;border-radius:6px}
+    .iface-item a{color:#0f172a;text-decoration:none;font-weight:600}
+    .iface-item:hover{background:#f1f5f9}
+    #search{width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef8;margin-bottom:8px}
+    .badge{background:#eef2ff;color:#1e3a8a;padding:2px 6px;border-radius:6px;font-size:0.8em;margin-left:8px}
+    .status-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:8px}
+    .status-dot.passed{background:#10b981}
+    .status-dot.failed{background:#ef4444}
+    .status-dot.design-only{background:#94a3b8}
+    .detail-btn{background:#eef2ff;border:0;padding:6px 8px;border-radius:6px;color:#1e3a8a;cursor:pointer}
+    .detail{margin-top:8px;padding:0;background:transparent}
+    .header::after{content:'▾';color:#94a3b8;font-weight:500;margin-left:8px}
+    img.report-img{max-width:100%;border-radius:6px;margin:8px 0}
+    /* 页签切换：功能测试 / 性能测试 */
+    .tabs{display:flex;gap:8px;border-bottom:2px solid #e2e8f0;margin-bottom:16px;flex-wrap:wrap}
+    .tab{border:1px solid #e2e8f0;border-bottom:none;background:#f8fafc;padding:10px 22px;border-radius:8px 8px 0 0;font-size:15px;font-weight:600;color:#475569;cursor:pointer}
+    .tab.is-active{background:#1e3a8a;color:#fff;border-color:#1e3a8a}
+    .tab:hover:not(.is-active){background:#eef2ff;color:#1e3a8a}
+    .tabpage{display:block}
+    .tabpage[hidden]{display:none}
+    /* 左侧接口列表可折叠 */
+    .collapse-btn{background:#1e3a8a;color:#fff;border:0;padding:8px 14px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap}
+    .collapse-btn:hover{background:#1d4ed8}
+    #func-sidebar{transition:all .2s ease}
+  </style>
+</head>
+<body>
+  <div class="tabs" role="tablist" aria-label="测试报告分页">
+    <button type="button" class="tab is-active" data-tab="functional" onclick="switchTab('functional')">功能测试</button>
+    <button type="button" class="tab" data-tab="performance" onclick="switchTab('performance')">性能测试</button>
+  </div>
+
+  <section id="tabpage-functional" class="tabpage">
+  <div style="display:flex; gap:16px; align-items:flex-start;">
+    <div>
+      <button type="button" class="collapse-btn" id="sidebar-toggle" onclick="toggleSidebar()" title="显示/隐藏接口列表">☰ 接口列表</button>
+      <div id="func-sidebar" style="width:300px;margin-top:8px;" hidden>
+      <h2>接口列表</h2>
+      <div id="sidebar">
+        <input id="search" placeholder="搜索接口名称" oninput="searchIface(this.value)" />
+        <ul id="iface-list">
+        {% set sidebar_module_ns = namespace(module='') %}
+        {% for name, info in func_index.items() %}
+          {% if info.module_name is defined and info.module_name != sidebar_module_ns.module %}
+            <li style="padding:8px 4px 2px;font-weight:700;color:#334155">{{ info.module_name }}</li>
+            {% set sidebar_module_ns.module = info.module_name %}
+          {% endif %}
+          <li class="iface-item"><div><a href="#{{ name|replace('.', '-') }}">{{ info.display_name or name }}</a>{% if info.design_only %}<span class="badge" style="background:#e2e8f0;color:#334155">设计用例</span>{% elif info.passed is not none %}<span class="badge">通过 {{ info.passed }}</span>{% endif %}</div><div><span class="status-dot {% if info.design_only %}design-only{% elif info.passed is not none and info.passed==info.total %}passed{% elif info.passed is not none and info.passed < info.total %}failed{% endif %}"></span><span class="badge">{{ info.total }}</span></div></li>
+        {% endfor %}
+        </ul>
+        {% if business_summary %}
+          <div style="margin-top:14px;padding-top:10px;border-top:1px solid #eef2f7;font-weight:700;color:#334155">Business 用例</div>
+          <ul id="business-iface-list" style="list-style:none;padding-left:0;margin:8px 0">
+          {% for module, module_info in business_summary.items() %}
+            <li class="iface-item"><a href="#business-module-{{ module|replace('_', '-') }}">Business / {{ module }}</a><span class="badge">{{ module_info.scenarios|length }}</span></li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+    </div>
+
+    <div style="flex:1;">
+      <h2>功能测试</h2>
+      <h3 style="margin:14px 0 4px;color:#1e3a8a">Function 用例（合法 / 非法 / 非空）</h3>
+      {% if func_index %}
+        {% set function_module_ns = namespace(module='') %}
+        {% for name, info in func_index.items() %}
+          {% if info.module_name is defined and info.module_name != function_module_ns.module %}
+            <h4 style="margin:16px 0 6px;color:#0f172a">{{ info.module_name }} 模块</h4>
+            {% set function_module_ns.module = info.module_name %}
+          {% endif %}
+          <div class="panel" id="{{ name|replace('.', '-') }}">
+            <div class="header" onclick="toggle(this)">{{ info.display_name or name }} — 用例总数：{{ info.total }} {% if info.design_only %}，设计用例未执行{% elif info.passed is not none %}，通过：{{ info.passed }}{% endif %}</div>
+            <div class="content">
+              {% if not info.direct_cases %}
+                <div style="margin-bottom:8px"><b>按字段分组：</b></div>
+              {% endif %}
+              {% for param, cases in info.by_param.items() %}
+                <div class="panel"{% if info.direct_cases %} style="border:0;box-shadow:none;margin:0"{% endif %}>
+                  {% if not info.direct_cases %}
+                    <div class="header" onclick="toggle(this)">{{ param }} ({{ cases|length }})</div>
+                  {% endif %}
+                  <div class="content"{% if info.direct_cases %} style="display:block;padding:0"{% endif %}>
+                    <table style="width:100%;border-collapse:collapse">
+                      <thead><tr><th style="text-align:left">用例ID</th><th style="text-align:left">名称</th><th style="text-align:left">类型</th></tr></thead>
+                      <tbody>
+                      {% for c in cases %}
+                        <tr><td>{{ c.case_id }}</td><td>{{ c.name }}</td><td>{{ c.scenario_type }}</td></tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                    <div style="margin-top:12px">
+                      {% for c in cases %}
+                        <div class="panel">
+                          <div class="header" onclick="toggle(this)">
+                            <div style="display:flex;gap:12px;align-items:center">
+                              <div>用例 {{ c.case_id }} — {{ c.name }}</div>
+                              {% if c.design_only %}<span class="badge" style="background:#e2e8f0;color:#334155">设计用例，未执行</span>{% elif c.passed is sameas(true) %}<span class="badge">通过</span>{% elif c.passed is sameas(false) %}<span class="badge" style="background:#ffe9e9;color:#9b1c1c">失败</span>{% else %}<span class="badge" style="background:#f3f4f6;color:#374151">未知</span>{% endif %}
+                              {% if c.verdict is defined and c.verdict == 'MISSING' %}<span class="badge" style="background:#e0e7ff;color:#3730a3">复核未执行</span>{% endif %}
+                            </div>
+                          </div>
+                          <div class="content">
+                            <div class="summary meta">摘要：类型 {{ c.scenario_type }} | ID {{ c.case_id }}{% if c.path %} | {{ c.path }}{% endif %}</div>
+                            <div class="detail">
+                              <div class="panel">
+                                <div class="header" onclick="toggle(this)">预期输出（响应体验证要求）</div>
+                                <div class="content">
+                                  <div><b>ASCII 报告</b>
+                                    <pre class="ascii" style="white-space:pre-wrap">{% if c.expected_display %}{{ c.expected_display }}{% elif c.expected is defined %}{% if c.expected is mapping or c.expected is sequence %}{{ c.expected | json_pretty }}{% else %}{{ c.expected }}{% endif %}{% else %}未配置该用例的预期响应体验证要求。{% endif %}</pre>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="panel">
+                                <div class="header" onclick="toggle(this)">实际输出（payload / responses）</div>
+                                <div class="content">
+                                  {% if c.actual_responses and c.actual_responses|length > 0 %}
+                                    {% set r = c.actual_responses[0] %}
+                                    <div class="meta">来源：{{ r.source }}{% if r.status is defined %} | 响应码：{{ r.status }}{% endif %}</div>
+                                    {% if r.body is mapping and (r.body.payload is defined or r.body.responses is defined) %}
+                                      {% if r.body.payload is defined %}
+                                        <div style="margin-top:8px"><b>payload</b>
+                                          <pre class="ascii" style="white-space:pre-wrap">{{ r.body.payload | json_pretty }}</pre>
+                                        </div>
+                                      {% endif %}
+                                      {% if r.body.responses is defined %}
+                                        {% if c.detect_field and r.body.responses.Result is mapping and r.body.responses.Result[c.detect_field] is defined %}
+                                          <div style="margin-top:8px"><b>Result.{{ c.detect_field }}（按检测类型仅展示该字段）</b>
+                                            <div class="meta">完整输出 JSON 文件：{{ r.source }}</div>
+                                            {% if c.detect_result_preview %}
+                                              <pre class="ascii" style="white-space:pre-wrap">{{ c.detect_result_preview }}</pre>
+                                            {% else %}
+                                              <pre class="ascii" style="white-space:pre-wrap">{{ r.body.responses.Result[c.detect_field] | json_pretty }}</pre>
+                                            {% endif %}
+                                          </div>
+                                        {% else %}
+                                          <div style="margin-top:8px"><b>responses</b>
+                                            <pre class="ascii" style="white-space:pre-wrap">{{ r.body.responses | json_pretty }}</pre>
+                                          </div>
+                                        {% endif %}
+                                      {% endif %}
+                                    {% else %}
+                                      <div class="meta">无 payload / responses 字段可显示</div>
+                                    {% endif %}
+                                  {% else %}
+                                    <div class="meta">无实际响应记录</div>
+                                  {% endif %}
+                                </div>
+                              </div>
+
+                              <div class="panel">
+                                <div class="header" onclick="toggle(this)">测试结果{% if c.design_only %} — 设计用例，未执行{% elif c.passed is sameas(true) %} — 通过{% elif c.passed is sameas(false) %} — 失败{% else %} — 未知{% endif %}</div>
+                                <div class="content">
+                                  <div><b>ASCII 报告</b>
+                                    <pre class="ascii" style="white-space:pre-wrap">{{ c.result_display or '无测试结果' }}</pre>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>无功能测试用例定义。</p>
+      {% endif %}
+
+      <h3 style="margin:22px 0 4px;color:#1e3a8a">Business 用例（业务场景）</h3>
+      {% if business_summary %}
+        {% for module, module_info in business_summary.items() %}
+          <div class="panel" id="business-module-{{ module|replace('_', '-') }}">
+            <div class="header" onclick="toggle(this)">Business / {{ module }} — 场景数：{{ module_info.scenarios|length }}</div>
+            <div class="content">
+              {% for scenario in module_info.scenarios %}
+                <div class="panel" id="business-{{ module|replace('_', '-') }}-{{ scenario.name|replace('_', '-') }}">
+                  <div class="header" onclick="toggle(this)">
+                    <div style="display:flex;gap:12px;align-items:center">
+                      <div>{{ scenario.name }}</div>
+                      {% if scenario.overall_status == 'passed' %}<span class="badge">通过</span>
+                      {% elif scenario.overall_status == 'failed' %}<span class="badge" style="background:#ffe9e9;color:#9b1c1c">失败</span>
+                      {% else %}<span class="badge" style="background:#f3f4f6;color:#374151">{{ scenario.overall_status or '未知' }}</span>{% endif %}
+                      <div class="meta">总步骤 {{ scenario.case_total }} | 通过 {{ scenario.passed }} | 失败 {{ scenario.failed }}</div>
+                    </div>
+                  </div>
+                  <div class="content">
+                    <div class="meta">来源：{{ scenario.source }} | 生成时间：{{ scenario.generated_at }}</div>
+                    {% if scenario.test_logic %}
+                      <div class="panel">
+                        <div class="header" onclick="toggle(this)">整体测试逻辑</div>
+                        <div class="content" style="display:block">
+                          {% if scenario.logic_source %}<div class="meta">逻辑来源：{{ scenario.logic_source }}</div>{% endif %}
+                          <pre class="ascii" style="white-space:pre-wrap">{{ scenario.test_logic }}</pre>
+                        </div>
+                      </div>
+                    {% endif %}
+                    {% if scenario.cases %}
+                      <table>
+                        <thead><tr><th style="text-align:left">步骤 ID</th><th style="text-align:left">预期</th><th style="text-align:left">实际</th><th style="text-align:left">结果</th><th style="text-align:left">失败原因</th></tr></thead>
+                        <tbody>
+                        {% for c in scenario.cases %}
+                          <tr>
+                            <td>{{ c.case_id }}</td>
+                            <td>{{ c.expected_status }}</td>
+                            <td>{{ c.actual_status }}</td>
+                            <td>{% if c.passed is sameas(true) %}通过{% elif c.passed is sameas(false) %}失败{% else %}未知{% endif %}</td>
+                            <td style="max-width:460px;word-break:break-all">{{ c.failure_reason or '无' }}</td>
+                          </tr>
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                      <div style="margin-top:14px"><b>各步骤接口预期返回与实际响应</b></div>
+                      {% for c in scenario.cases %}
+                        <div class="panel">
+                          <div class="header" onclick="toggle(this)">
+                            <div style="display:flex;gap:12px;align-items:center">
+                              <div>步骤 {{ c.case_id }}</div>
+                              {% if c.passed is sameas(true) %}<span class="badge">通过</span>{% elif c.passed is sameas(false) %}<span class="badge" style="background:#ffe9e9;color:#9b1c1c">失败</span>{% else %}<span class="badge" style="background:#f3f4f6;color:#374151">未知</span>{% endif %}
+                            </div>
+                          </div>
+                          <div class="content">
+                            {% if c.actual_response %}
+                              <div class="meta">时间：{{ c.actual_response.timestamp }}{% if c.response_source %} | 归档：{{ c.response_source }}{% endif %}</div>
+                              <div class="meta">请求：{{ c.actual_response.method }} {{ c.actual_response.path }} → HTTP {{ c.actual_response.status_code }}</div>
+                              <div style="margin-top:12px"><b>payload</b>
+                                <pre class="ascii" style="white-space:pre-wrap">{{ c.actual_response.payload | json_pretty }}</pre>
+                              </div>
+                              <div><b>预期返回</b>
+                                <pre class="ascii" style="white-space:pre-wrap">{{ c.expected_display or ('预期状态码：' ~ c.expected_status) }}</pre>
+                              </div>
+                              <div style="margin-top:12px"><b>实际返回</b>
+                                <pre class="ascii" style="white-space:pre-wrap">{{ c.result_display or ('实际状态码：' ~ (c.actual_status if c.actual_status is not none else '无记录')) }}</pre>
+                              </div>
+                              <div style="margin-top:12px"><b>接口响应返回</b>
+                                <pre class="ascii" style="white-space:pre-wrap">{{ c.actual_response.response_body | json_pretty }}</pre>
+                              </div>
+                            {% else %}
+                              <div><b>预期返回</b>
+                                <pre class="ascii" style="white-space:pre-wrap">{{ c.expected_display or ('预期状态码：' ~ c.expected_status) }}</pre>
+                              </div>
+                              <div style="margin-top:12px"><b>实际返回</b>
+                                <pre class="ascii" style="white-space:pre-wrap">{{ c.result_display or ('实际状态码：' ~ (c.actual_status if c.actual_status is not none else '无记录')) }}</pre>
+                              </div>
+                              <div class="meta" style="margin-top:12px">未找到该步骤对应的接口响应记录</div>
+                            {% endif %}
+                          </div>
+                        </div>
+                      {% endfor %}
+                    {% else %}
+                      <div class="meta">该场景未输出逐步骤 case_results，只展示场景汇总。</div>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>无 business 用例结果。</p>
+      {% endif %}
+    </div>
+  </div>
+  </section>
+
+  <section id="tabpage-performance" class="tabpage" hidden>
+      <h2>性能测试</h2>
+      {% if perf_summary %}
+        {% for name, entry in perf_summary.items() %}
+          <div class="panel">
+            <div class="header" onclick="toggle(this)">{{ name }}</div>
+            <div class="content">
+              {# 如果按模块聚合了 items 列表，逐个接口/文件渲染子面板 #}
+              {% if entry.get('items') %}
+                {% for it in entry.get('items') %}
+                  <div class="panel">
+                    <div class="header" onclick="toggle(this)">{{ it.display_name or it.name or it.source }}</div>
+                    <div class="content">
+                          {% if it.parsed %}
+                            {% set is_hotspot = it.is_hotspot %}
+                            <div class="meta">Base URL：{{ it.parsed.base_url or '-' }} | Endpoint：{{ it.parsed.endpoint or '-' }}{% if it.parsed.window %} | {{ it.parsed.window }}{% endif %}{% if it.parsed.failure_count is not none %} | 失败请求：{{ it.parsed.failure_count }}{% endif %}</div>
+                            {% if it.parsed.analysis %}<div class="meta">性能结论：{{ it.parsed.analysis }}</div>{% endif %}
+                            {% if is_hotspot %}
+                              <div style="margin-top:10px"><b>热点库测试逻辑</b>
+                                <ul class="meta" style="margin-top:6px">
+                                  <li>每个并发档先执行同 case 纯 search baseline，再立即执行同 case hotspot 混合负载，二者从同一干净仓库状态开始。</li>
+                                  <li>插入时全量按特征文件顺序循环使用不同特征，不复制查询热点特征。</li>
+                                  <li>hotspot 阶段每库使用 32 insert + 32 delete worker，不使用独立限速器；insert 持续提交，delete 仅在池中暂无实体时等待。</li>
+                                  <li>当前并发档完成后使用 cleanup 并发 32 删除遗留实体，仅记录待清理数、成功删除数、剩余数和耗时，再进入下一个并发档。</li>
+                                  <li>多 NPU 库组合仅执行 concurrency=32，其余并发档跳过。</li>
+                                </ul>
+                              </div>
+                            {% endif %}
+                            {% if it.parsed.hotspot_base_params %}
+                              <div style="margin-top:10px"><b>基础参数</b>
+                                <ul class="meta" style="margin-top:6px">
+                                  {% for param in it.parsed.hotspot_base_params %}<li>{{ param }}</li>{% endfor %}
+                                </ul>
+                              </div>
+                            {% endif %}
+                            {% if it.parsed.hotspot_pairs %}
+                              <div style="margin-top:10px"><b>热点库性能指标</b></div>
+                              {% for pair in it.parsed.hotspot_pairs %}
+                                <div class="panel">
+                                  <div class="header" onclick="toggle(this)">性能指标 — {{ pair.params }}</div>
+                                  <div class="content">
+                                    <table>
+                                      <thead><tr>{% for header in pair.headers %}<th>{{ header }}</th>{% endfor %}</tr></thead>
+                                      <tbody>
+                                        {% for row in pair.rows %}
+                                          <tr>{% for cell in row %}<td>{{ cell }}</td>{% endfor %}</tr>
+                                        {% endfor %}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              {% endfor %}
+                            {% endif %}
+                            {% if it.parsed.baseline_only_pairs %}
+                              <div style="margin-top:10px"><b>NPU 基线-only 搜索结果</b></div>
+                              {% for pair in it.parsed.baseline_only_pairs %}
+                                <div class="panel">
+                                  <div class="header" onclick="toggle(this)">基线搜索 — {{ pair.params }}</div>
+                                  <div class="content">
+                                    <table>
+                                      <thead><tr>{% for header in pair.headers %}<th>{{ header }}</th>{% endfor %}</tr></thead>
+                                      <tbody>
+                                        {% for row in pair.rows %}
+                                          <tr>{% for cell in row %}<td>{{ cell }}</td>{% endfor %}</tr>
+                                        {% endfor %}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              {% endfor %}
+                            {% endif %}
+                            {% if it.parsed.hotspot_write_chart %}
+                              <div style="margin-top:10px"><b>持续插库与删除时序</b></div>
+                              <div class="write-legend"><span><i class="dot insert"></i>insert/s</span><span><i class="dot delete"></i>delete/s</span><span>柱下数字为写入池近似大小</span></div>
+                              {% set chart = it.parsed.hotspot_write_chart %}
+                              <div class="panel">
+                                <div class="header" onclick="toggle(this)">显著竞争状态 — {{ chart.title }}</div>
+                                <div class="content">
+                                  <div class="meta">insert workers={{ chart.insert_workers }} | delete workers={{ chart.delete_workers }} | 不使用独立限速器</div>
+                                  <div class="meta">insert 峰值={{ chart.insert_max }}/s | delete 峰值={{ chart.delete_max }}/s | pool={{ chart.pool_min }} → {{ chart.pool_max }}</div>
+                                  <div class="write-chart">
+                                    {% for point in chart.points %}
+                                      <div class="write-column" title="第{{ point.second }}秒：insert={{ point.insert_ok }} delete={{ point.delete_ok }} pool={{ point.pool_size }}">
+                                        <div class="write-bars">
+                                          <span class="write-bar insert" style="height:{{ point.insert_height }}px"></span>
+                                          <span class="write-bar delete" style="height:{{ point.delete_height }}px"></span>
+                                        </div>
+                                        <div class="write-tick">{{ point.second }}s</div>
+                                        <div class="write-pool">{{ point.pool_size }}</div>
+                                      </div>
+                                    {% endfor %}
+                                  </div>
+                                </div>
+                              </div>
+                            {% endif %}
+                            {% if not is_hotspot %}
+                              <div style="margin-top:10px"><b>性能测试用例</b></div>
+                              {% for case in it.parsed.cases %}
+                              <div class="panel">
+                                <div class="header" onclick="toggle(this)">用例 {{ case.case_id }}{% if case.label %}（{{ case.label }}）{% endif %}{% if case.params %} — {{ case.params }}{% endif %}</div>
+                                <div class="content">
+                                  {% if case.metrics %}
+                                    <table>
+                                      <thead><tr><th>并发</th><th>总请求</th><th>成功</th><th>失败</th><th>成功率</th><th>错误率</th><th>QPS</th><th>P50</th><th>Avg</th><th>P95</th><th>P99</th><th>Max</th><th>超时</th><th>连接错误</th></tr></thead>
+                                      <tbody>
+                                      {% for m in case.metrics %}
+                                        <tr>
+                                          <td>{{ m.concurrency }}</td><td>{{ m.total }}</td><td>{{ m.success }}</td><td>{{ m.failure }}</td>
+                                          <td>{{ m.success_rate }}</td><td>{{ m.error_rate }}</td><td>{{ m.qps }}</td>
+                                          <td>{{ m.p50 }}</td><td>{{ m.avg }}</td><td>{{ m.p95 }}</td><td>{{ m.p99 }}</td><td>{{ m.max }}</td>
+                                          <td>{{ m.timeout }}</td><td>{{ m.conn_err }}</td>
+                                        </tr>
+                                      {% endfor %}
+                                      </tbody>
+                                    </table>
+                                  {% else %}
+                                    <div class="meta">该用例无结构化指标</div>
+                                  {% endif %}
+                                </div>
+                              </div>
+                              {% endfor %}
+                            {% endif %}
+                          {% endif %}
+                          {% if not is_hotspot %}
+                            {% if it.get('ascii') %}
+                              <div style="margin-top:12px"><b>ASCII 报告</b>
+                                <pre class="perf-ascii">{{ it.ascii }}</pre>
+                              </div>
+                            {% elif it.get('md') %}
+                              <div>MD 报告：<a href="{{ it.md }}">打开 MD 报告</a></div>
+                            {% else %}
+                              <div class="meta">无性能测试数据。</div>
+                            {% endif %}
+                          {% endif %}
+                    </div>
+                  </div>
+                {% endfor %}
+              {% else %}
+                {# 兼容旧结构：单个 entry.raw 或 entry.md #}
+                {% if entry.raw is mapping %}
+                  {% set raw = entry.raw %}
+                  {% set metrics = raw.metrics or raw.summary or raw.statistics or raw.stats %}
+                  {% if metrics is defined %}
+                    <div style="margin-top:8px"><b>压测指标</b>
+                      <pre class="ascii">{{ metrics | json_pretty }}</pre>
+                    </div>
+                  {% else %}
+                    <div class="meta">未找到结构化指标数据，查看原始文件：<a href="{{ entry.source }}">{{ entry.source }}</a></div>
+                  {% endif %}
+                {% elif entry.get('md') %}
+                  <div>MD 报告：<a href="{{ entry.md }}">打开 MD 报告</a></div>
+                {% else %}
+                  <div class="meta">无性能测试数据。</div>
+                {% endif %}
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>无性能测试数据。</p>
+      {% endif %}
+  </section>
+
+  <script>
+    function toggle(el){
+      var c = el.nextElementSibling;
+      if(!c) return;
+      c.style.display = c.style.display === 'block' ? 'none' : 'block';
+    }
+    // 点击标题即可 toggle 面板内容，toggleDetail 已移除
+    function searchIface(q){
+      q = q.toLowerCase();
+      var items = document.querySelectorAll('#iface-list li');
+      items.forEach(function(li){
+        var t = li.innerText.toLowerCase();
+        li.style.display = t.indexOf(q) !== -1 ? '' : 'none';
+      });
+    }
+
+    // 页签切换：功能测试 / 性能测试
+    function switchTab(name){
+      var pages = document.querySelectorAll('.tabpage');
+      pages.forEach(function(p){ p.hidden = (p.id !== 'tabpage-' + name); });
+      var tabs = document.querySelectorAll('.tab');
+      tabs.forEach(function(t){ t.classList.toggle('is-active', t.getAttribute('data-tab') === name); });
+      window.scrollTo(0, 0);
+    }
+    // 左侧接口列表：显示/隐藏
+    function toggleSidebar(){
+      var sb = document.getElementById('func-sidebar');
+      var btn = document.getElementById('sidebar-toggle');
+      if(!sb || !btn) return;
+      if(sb.hidden){
+        sb.hidden = false;
+        btn.innerHTML = '✕ 收起接口列表';
+      } else {
+        sb.hidden = true;
+        btn.innerHTML = '☰ 接口列表';
+      }
+    }
+  </script>
+</body>
+</html>

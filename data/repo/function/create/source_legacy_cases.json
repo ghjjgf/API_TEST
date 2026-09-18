@@ -1,0 +1,1380 @@
+[
+  {
+    "case_id": "CR-ID-VALID-001",
+    "name": "id为合法字符串时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "id",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-ID-INVALID-001",
+    "name": "id为非字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "id",
+    "scenario_type": "非法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": 123,
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-ID-EMPTY-001",
+    "name": "缺少id",
+    "module": "repo",
+    "action": "create",
+    "parameter": "id",
+    "scenario_type": "非空",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-ID-EMPTY-002",
+    "name": "id为空字符串",
+    "module": "repo",
+    "action": "create",
+    "parameter": "id",
+    "scenario_type": "非空",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-TYPE-VALID-001",
+    "name": "type为face时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "type",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-face",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-TYPE-VALID-002",
+    "name": "type为motor时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "type",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-motor",
+      "type": "motor",
+      "index_type": "int8",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-TYPE-VALID-003",
+    "name": "type为nonmotor时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "type",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-nonmotor",
+      "type": "nonmotor",
+      "index_type": "int8",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-TYPE-VALID-004",
+    "name": "type为person时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "type",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-person",
+      "type": "person",
+      "index_type": "int8",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-TYPE-INVALID-001",
+    "name": "type为非法枚举值invalid",
+    "module": "repo",
+    "action": "create",
+    "parameter": "type",
+    "scenario_type": "非法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-invalid-type",
+      "type": "invalid",
+      "index_type": "int8",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-TYPE-INVALID-002",
+    "name": "type为非字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "type",
+    "scenario_type": "非法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-type-int",
+      "type": 1,
+      "index_type": "int8",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-TYPE-EMPTY-001",
+    "name": "缺少type",
+    "module": "repo",
+    "action": "create",
+    "parameter": "type",
+    "scenario_type": "非空",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "index_type": "int8",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-TYPE-EMPTY-002",
+    "name": "type为空字符串",
+    "module": "repo",
+    "action": "create",
+    "parameter": "type",
+    "scenario_type": "非空",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "type": "",
+      "index_type": "int8",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-INDEX-VALID-001",
+    "name": "index_type为int8时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "index_type",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-int8",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-INDEX-VALID-002",
+    "name": "index_type为float时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "index_type",
+    "scenario_type": "非法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-float",
+      "type": "face",
+      "index_type": "float",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-INDEX-INVALID-001",
+    "name": "index_type为非法枚举值",
+    "module": "repo",
+    "action": "create",
+    "parameter": "index_type",
+    "scenario_type": "非法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-invalid-index",
+      "type": "face",
+      "index_type": "invalid",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-INDEX-INVALID-002",
+    "name": "index_type为非字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "index_type",
+    "scenario_type": "非法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-index-int",
+      "type": "face",
+      "index_type": 0,
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-INDEX-EMPTY-001",
+    "name": "缺少index_type",
+    "module": "repo",
+    "action": "create",
+    "parameter": "index_type",
+    "scenario_type": "非空",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "type": "face",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-INDEX-EMPTY-002",
+    "name": "index_type为空字符串",
+    "module": "repo",
+    "action": "create",
+    "parameter": "index_type",
+    "scenario_type": "非空",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "type": "face",
+      "index_type": "",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-LEVEL-VALID-001",
+    "name": "level为ram时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "level",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-ram",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram"
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-LEVEL-VALID-002",
+    "name": "level为npu时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "level",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-npu",
+      "type": "face",
+      "index_type": "int8",
+      "level": "npu"
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-LEVEL-VALID-003",
+    "name": "level为gpu时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "level",
+    "scenario_type": "非法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-gpu",
+      "type": "face",
+      "index_type": "int8",
+      "level": "gpu"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-LEVEL-INVALID-001",
+    "name": "level为非法枚举值",
+    "module": "repo",
+    "action": "create",
+    "parameter": "level",
+    "scenario_type": "非法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-invalid-level",
+      "type": "face",
+      "index_type": "int8",
+      "level": "invalid"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-LEVEL-INVALID-002",
+    "name": "level为数组类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "level",
+    "scenario_type": "非法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-level-list",
+      "type": "face",
+      "index_type": "int8",
+      "level": []
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-LEVEL-EMPTY-001",
+    "name": "缺少level",
+    "module": "repo",
+    "action": "create",
+    "parameter": "level",
+    "scenario_type": "非空",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "type": "face",
+      "index_type": "int8"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-LEVEL-EMPTY-002",
+    "name": "level为空字符串",
+    "module": "repo",
+    "action": "create",
+    "parameter": "level",
+    "scenario_type": "非空",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "type": "face",
+      "index_type": "int8",
+      "level": ""
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "CR-REPL-VALID-001",
+    "name": "replications为合法int32时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "replications",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-rep",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "replications": 2
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-REPL-INVALID-001",
+    "name": "replications为字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "replications",
+    "scenario_type": "非法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-rep-invalid",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "replications": "2"
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-CAP-VALID-001",
+    "name": "capacity为合法int64时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "capacity",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-cap",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 100
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-CAP-INVALID-001",
+    "name": "capacity为字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "capacity",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-cap-invalid",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": "100"
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-SIZE-VALID-001",
+    "name": "size为合法整数时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "size",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-size",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "size": 0
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-SIZE-INVALID-001",
+    "name": "size为字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "size",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-size-invalid",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "size": "9"
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-VERSION-VALID-001",
+    "name": "default_version结构合法时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "default_version",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-version",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "default_version": {
+        "name": "v1",
+        "feature_length": 512,
+        "size": 0
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-VERSION-INVALID-001",
+    "name": "default_version.name为非字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "default_version",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-version-invalid1",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "default_version": {
+        "name": 1,
+        "feature_length": 512,
+        "size": 0
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-VERSION-INVALID-002",
+    "name": "default_version.feature_length为字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "default_version",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-version-invalid2",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "default_version": {
+        "name": "v1",
+        "feature_length": "512",
+        "size": 0
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-VERSION-INVALID-003",
+    "name": "default_version.size为字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "default_version",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-version-invalid3",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "default_version": {
+        "name": "v1",
+        "feature_length": 512,
+        "size": "0"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-VALID-000",
+    "name": "options为合法字段创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-cr-options-valid-000",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "hashingNum": "1",
+        "UseFeatureIDMap": "false",
+        "TimerDeleteDays": "1",
+        "PreFilter": "false",
+        "Rotate": "true",
+        "DcpmmEnabled": "false",
+        "QEEnabled": "true",
+        "QENeighbors": "5",
+        "QEThreshold": "0.45",
+        "QEPow": "3",
+        "KnnEnabled": "true",
+        "KnnNeighbors": "5",
+        "KnnThreshold": "0.5"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-VALID-001",
+    "name": "options的UseFeatureIDMap为非默认合法数值true时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "UseFeatureIDMap": "true"
+      }
+    },
+    "expected": {
+      "status_code": 501
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-VALID-002",
+    "name": "options的Prefilter为非默认合法数值false时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "PreFilter": "false"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-VALID-003",
+    "name": "options的Rotate为非默认合法数值true时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "Rotate": "true"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-VALID-004",
+    "name": "options的DcpmmEnabled为非默认合法数值true时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "DcpmmEnabled": "true"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-VALID-005",
+    "name": "options的QEEnabled为非默认合法数值true时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QEEnabled": "true"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-VALID-006",
+    "name": "options的KnnEnabled为非默认合法数值true时创建比对库",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "KnnEnabled": "true"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-001",
+    "name": "options.hashingNum为数字类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid1",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "hashingNum": 1
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-002",
+    "name": "options.hashingNum为负整数字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid2",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "hashingNum": "-1"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-003",
+    "name": "options.hashingNum为正浮点数字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid3",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "hashingNum": "1.1"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-004",
+    "name": "options.UseFeatureIDMap为布尔类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid4",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "UseFeatureIDMap": true
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-005",
+    "name": "options.TimerDeleteDays为数字类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid5",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "TimerDeleteDays": 1
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-006",
+    "name": "options.PreFilter为布尔类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid6",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "PreFilter": true
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-007",
+    "name": "options.Rotate为布尔类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid7",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "Rotate": true
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-008",
+    "name": "options.DcpmmEnabled为布尔类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid8",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "DcpmmEnabled": true
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-009",
+    "name": "options.QEEnabled为布尔类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid9",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QEEnabled": true
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-010",
+    "name": "options.QENeighbors为整数类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid10",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QENeighbors": 10
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-011",
+    "name": "options.QENeighbors为负整数字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid11",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QENeighbors": "-1"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-012",
+    "name": "options.QENeighbors为正浮点数字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid12",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QENeighbors": "1.1"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-013",
+    "name": "options.QEThreshold为数字类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid13",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QEThreshold": 0.85
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-014",
+    "name": "options.QEThreshold为整型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid14",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QEThreshold": "4"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-015",
+    "name": "options.QEPow为整数类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid15",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QEPow": 9
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-016",
+    "name": "options.QEPow为负整数字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid16",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QEPow": "-1"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-017",
+    "name": "options.QEPow为正浮点数字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid17",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QEPow": "1.1"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-018",
+    "name": "options.KnnEnabled为布尔类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid18",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "KnnEnabled": true
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-019",
+    "name": "options.KnnNeighbors为整数类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid19",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "KnnNeighbors": 9
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-020",
+    "name": "options.KnnNeighbors为负整数字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid20",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "KnnNeighbors": "-1"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-021",
+    "name": "options.KnnNeighbors为正浮点数字符串类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid21",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "KnnNeighbors": "1.1"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-022",
+    "name": "options.KnnThreshold为数字类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid22",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "KnnThreshold": 0.85
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-OPTIONS-INVALID-023",
+    "name": "options.KnnThreshold为数字类型",
+    "module": "repo",
+    "action": "create",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid23",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "KnnThreshold": "4"
+      }
+    },
+    "expected": {
+      "status_code": 201
+    }
+  },
+  {
+    "case_id": "CR-BODY-EMPTY-001",
+    "name": "请求体为空",
+    "module": "repo",
+    "action": "create",
+    "parameter": "body",
+    "scenario_type": "非空",
+    "method": "POST",
+    "path": "/repositories",
+    "payload": {},
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "__summary__": {
+      "test_case_total": 60
+    }
+  }
+]

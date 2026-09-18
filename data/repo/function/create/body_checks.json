@@ -1,0 +1,29 @@
+{
+  "success": {
+    "no_error": true,
+    "must_have": [
+      "id",
+      "status",
+      "type",
+      "index_type",
+      "level",
+      "capacity",
+      "size",
+      "replications",
+      "options"
+    ],
+    "echo": [
+      "id",
+      "type",
+      "index_type",
+      "level"
+    ],
+    "detect_success": false
+  },
+  "failure": {
+    "error_required": true,
+    "error_code": null
+  },
+  "_success_desc": "响应体为已创建仓库对象：id(与请求 id 一致)、type、index_type、level、capacity、size、replications、status、options；status 异步创建时=CREATING，就绪后=READY/ACTIVE/SUCCESS；options 为配置对象(含 PreFilter/KnnEnabled/KnnNeighbors/KnnThreshold/QEEnabled/QENeighbors/QEThreshold/Rotate/TimerDeleteDays/UseFeatureIDMap/DcpmmEnabled/hashingNum 等)；id/type/index_type/level 须与请求回显一致。",
+  "_failure_desc": "失败响应体为 {error, error_code}：error 非空(错误说明)，error_code 非空(业务码)。常见：缺 id/type/index_type/level → 100003；能力不支持 → 501/900001 等。"
+}

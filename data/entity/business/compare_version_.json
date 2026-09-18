@@ -1,0 +1,6 @@
+{
+  "cases": [
+    {"case_id": "compare-same-version", "m_version": "v1", "n_version": "v1"},
+    {"case_id": "compare-different-version", "m_version": "v1", "n_version": "v2"}
+  ]
+}

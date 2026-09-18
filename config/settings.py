@@ -1,0 +1,12 @@
+"""存放 API_TEST 框架环境常量与运行时默认值的模块。"""
+
+from __future__ import annotations
+
+
+DEFAULT_HOST = "175.168.12.43"
+DEFAULT_DETECT_HOST = "175.168.13.72"
+COMP_PORT = 3154
+DETECT_PORT = 3156
+DEFAULT_BASE_URL = f"http://{DEFAULT_HOST}:{COMP_PORT}/x-api/v1"
+DEFAULT_DETECT_URL = f"http://{DEFAULT_DETECT_HOST}:{DETECT_PORT}/x-api/v1"
+DEFAULT_REQUEST_TIMEOUT_S = 60.0

@@ -1,0 +1,1407 @@
+[
+  {
+    "case_id": "UR-REPOID-VALID-001",
+    "name": "使用存在的repo_id修改比对库配置",
+    "module": "repo",
+    "action": "update",
+    "parameter": "repo_id",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories/testrepo",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10,
+      "repo_id": "testrepo"
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-REPOID-INVALID-001",
+    "name": "repo_id不存在",
+    "module": "repo",
+    "action": "update",
+    "parameter": "repo_id",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories/not-exist",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10,
+      "repo_id": "not-exist"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-REPOID-EMPTY-001",
+    "name": "repo_id缺失",
+    "module": "repo",
+    "action": "update",
+    "parameter": "repo_id",
+    "scenario_type": "非空",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-ID-VALID-001",
+    "name": "id为合法字符串时修改比对库配置",
+    "module": "repo",
+    "action": "update",
+    "parameter": "id",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-ID-INVALID-001",
+    "name": "id为非字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "id",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": 123,
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-ID-EMPTY-001",
+    "name": "id为空字符串",
+    "module": "repo",
+    "action": "update",
+    "parameter": "id",
+    "scenario_type": "非空",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-TYPE-VALID-001",
+    "name": "type为face时修改比对库配置",
+    "module": "repo",
+    "action": "update",
+    "parameter": "type",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-TYPE-VALID-002",
+    "name": "type为motor时修改比对库配置",
+    "module": "repo",
+    "action": "update",
+    "parameter": "type",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "motor",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-TYPE-VALID-003",
+    "name": "type为nonmotor时修改比对库配置",
+    "module": "repo",
+    "action": "update",
+    "parameter": "type",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "nonmotor",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-TYPE-VALID-004",
+    "name": "type为person时修改比对库配置",
+    "module": "repo",
+    "action": "update",
+    "parameter": "type",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "person",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-TYPE-INVALID-001",
+    "name": "type为非法枚举值",
+    "module": "repo",
+    "action": "update",
+    "parameter": "type",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "invalid",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-TYPE-INVALID-002",
+    "name": "type为非字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "type",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": 1,
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-TYPE-EMPTY-001",
+    "name": "type为空字符串",
+    "module": "repo",
+    "action": "update",
+    "parameter": "type",
+    "scenario_type": "非空",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-INDEX-VALID-001",
+    "name": "index_type为int8时修改比对库配置",
+    "module": "repo",
+    "action": "update",
+    "parameter": "index_type",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-INDEX-VALID-002",
+    "name": "index_type为float时修改比对库配置",
+    "module": "repo",
+    "action": "update",
+    "parameter": "index_type",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "float",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-INDEX-INVALID-001",
+    "name": "index_type为非法枚举值",
+    "module": "repo",
+    "action": "update",
+    "parameter": "index_type",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "fp32",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-INDEX-EMPTY-001",
+    "name": "index_type为空字符串",
+    "module": "repo",
+    "action": "update",
+    "parameter": "index_type",
+    "scenario_type": "非空",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-LEVEL-VALID-001",
+    "name": "level为ram时修改比对库配置",
+    "module": "repo",
+    "action": "update",
+    "parameter": "level",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-LEVEL-VALID-002",
+    "name": "level为npu时修改比对库配置",
+    "module": "repo",
+    "action": "update",
+    "parameter": "level",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "npu",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-LEVEL-VALID-003",
+    "name": "level为gpu时修改比对库配置",
+    "module": "repo",
+    "action": "update",
+    "parameter": "level",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "gpu",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-LEVEL-INVALID-001",
+    "name": "level为非法枚举值",
+    "module": "repo",
+    "action": "update",
+    "parameter": "level",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "cpu",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-LEVEL-EMPTY-001",
+    "name": "level为空字符串",
+    "module": "repo",
+    "action": "update",
+    "parameter": "level",
+    "scenario_type": "非空",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-REPL-VALID-001",
+    "name": "replications为合法int32时修改比对库配置",
+    "module": "repo",
+    "action": "update",
+    "parameter": "replications",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "replications": 2
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-REPL-INVALID-001",
+    "name": "replications为字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "replications",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10,
+      "replications": "2"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-CAP-VALID-001",
+    "name": "capacity为合法int64时修改比对库配置",
+    "module": "repo",
+    "action": "update",
+    "parameter": "capacity",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-CAP-INVALID-001",
+    "name": "capacity为字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "capacity",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": "10"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-CAP-INVALID-002",
+    "name": "capacity为浮点数",
+    "module": "repo",
+    "action": "update",
+    "parameter": "capacity",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10.5
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-SIZE-INVALID-001",
+    "name": "size为字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "size",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10,
+      "size": "1"
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-VERSION-INVALID-001",
+    "name": "default_version.name为非字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "default_version",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10,
+      "default_version": {
+        "name": 1,
+        "feature_length": 512,
+        "size": 0
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-VERSION-INVALID-002",
+    "name": "default_version.feature_length为字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "default_version",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10,
+      "default_version": {
+        "name": "v1",
+        "feature_length": "512",
+        "size": 0
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-VERSION-INVALID-003",
+    "name": "default_version.size为字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "default_version",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-update",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "capacity": 10,
+      "default_version": {
+        "name": "v1",
+        "feature_length": 512,
+        "size": "0"
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-VALID-001",
+    "name": "合法修改options.hashingNum",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "options": {
+        "hashingNum": "2"
+      }
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-VALID-002",
+    "name": "合法修改options.UseFeatureIDMap",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "options": {
+        "UseFeatureIDMap": "false"
+      }
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-VALID-003",
+    "name": "合法修改options.TimerDeleteDays",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "options": {
+        "TimerDeleteDays": "2"
+      }
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-VALID-004",
+    "name": "合法修改options.PreFilter",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "options": {
+        "PreFilter": "true"
+      }
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-VALID-005",
+    "name": "合法修改options.Rotate",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "options": {
+        "Rotate": "false"
+      }
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-VALID-006",
+    "name": "合法修改options.DcpmmEnabled",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "options": {
+        "DcpmmEnabled": "true"
+      }
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-VALID-007",
+    "name": "合法修改options.QEEnabled",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "options": {
+        "QEEnabled": "false"
+      }
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-VALID-008",
+    "name": "合法修改options.QENeighbors",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "options": {
+        "QENeighbors": "6"
+      }
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-VALID-009",
+    "name": "合法修改options.QEThreshold",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "options": {
+        "QEThreshold": "2"
+      }
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-VALID-010",
+    "name": "合法修改options.hashQEPowingNum",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "options": {
+        "QEPow": "4"
+      }
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-VALID-011",
+    "name": "合法修改options.KnnEnabled",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "options": {
+        "KnnEnabled": "false"
+      }
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-VALID-012",
+    "name": "合法修改options.KnnNeighbors",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "options": {
+        "KnnNeighbors": "6"
+      }
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-VALID-013",
+    "name": "合法修改options.KnnThreshold",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "合法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo",
+      "options": {
+        "KnnThreshold": "0.6"
+      }
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-001",
+    "name": "options.hashingNum为数字类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid1",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "hashingNum": 1
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-002",
+    "name": "options.hashingNum为负整数字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid2",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "hashingNum": "-1"
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-003",
+    "name": "options.hashingNum为正浮点数字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid3",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "hashingNum": "1.1"
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-004",
+    "name": "options.UseFeatureIDMap为布尔类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid4",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "UseFeatureIDMap": true
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-005",
+    "name": "options.TimerDeleteDays为数字类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid5",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "TimerDeleteDays": 1
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-006",
+    "name": "options.PreFilter为布尔类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid6",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "PreFilter": true
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-007",
+    "name": "options.Rotate为布尔类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid7",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "Rotate": true
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-008",
+    "name": "options.DcpmmEnabled为布尔类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid8",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "DcpmmEnabled": true
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-009",
+    "name": "options.QEEnabled为布尔类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid9",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QEEnabled": true
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-010",
+    "name": "options.QENeighbors为整数类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid10",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QENeighbors": 5
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-011",
+    "name": "options.QENeighbors为负整数字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid11",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QENeighbors": "-1"
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-012",
+    "name": "options.QENeighbors为正浮点数字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid12",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QENeighbors": "1.1"
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-013",
+    "name": "options.QEThreshold为数字类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid13",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QEThreshold": 0.45
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-014",
+    "name": "options.QEThreshold为数字类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid14",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QEThreshold": "4"
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-015",
+    "name": "options.QEPow为整数类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid15",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QEPow": 3
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-016",
+    "name": "options.QEPow为负整数字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid16",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QEPow": "-1"
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-017",
+    "name": "options.QEPow为正浮点数字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid17",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "QEPow": "1.1"
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-018",
+    "name": "options.KnnEnabled为布尔类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid18",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "KnnEnabled": true
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-019",
+    "name": "options.KnnNeighbors为整数类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid19",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "KnnNeighbors": 5
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-020",
+    "name": "options.KnnNeighbors为负整数字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid20",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "KnnNeighbors": "-1"
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-021",
+    "name": "options.KnnNeighbors为正浮点数字符串类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid21",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "KnnNeighbors": "1.1"
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-022",
+    "name": "options.KnnThreshold为数字类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid22",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "KnnThreshold": 0.45
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-OPTIONS-INVALID-023",
+    "name": "options.KnnThreshold为数字类型",
+    "module": "repo",
+    "action": "update",
+    "parameter": "options",
+    "scenario_type": "非法",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {
+      "id": "testrepo-option-invalid23",
+      "type": "face",
+      "index_type": "int8",
+      "level": "ram",
+      "options": {
+        "KnnThreshold": "4"
+      }
+    },
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "case_id": "UR-BODY-EMPTY-001",
+    "name": "请求体为空",
+    "module": "repo",
+    "action": "update",
+    "parameter": "body",
+    "scenario_type": "非空",
+    "method": "PUT",
+    "path": "/repositories",
+    "payload": {},
+    "expected": {
+      "status_code": 400
+    }
+  },
+  {
+    "__summary__": {
+      "test_case_total": 68
+    }
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "success": {
+    "no_error": true,
+    "must_have": [
+      "repos",
+      "total_count"
+    ],
+    "echo": [],
+    "detect_success": false
+  },
+  "failure": {
+    "error_required": true,
+    "error_code": null
+  },
+  "_success_desc": "响应体为 {repos: [仓库对象数组], total_count: 仓库数量}；每个仓库对象含 id/type/index_type/level/capacity/size/status/options 等；新建的 repo 应出现在 repos 中。",
+  "_failure_desc": "失败响应体 {error, error_code}，如请求方法/载荷非法 → 400 + 100002(JSON parse error) 等。"
+}

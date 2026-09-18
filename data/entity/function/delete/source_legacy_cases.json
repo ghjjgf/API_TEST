@@ -1,0 +1,149 @@
+[
+  {
+    "case_id": "DE-VALID-001",
+    "name": "删除已存在实例",
+    "module": "entity",
+    "action": "delete",
+    "parameter": "repo_id",
+    "scenario_type": "合法",
+    "method": "DELETE",
+    "path": "/repositories/testrepo/entities/entity-002",
+    "payload": {},
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "DE-INVALID-001",
+    "name": "repo_id不存在",
+    "module": "entity",
+    "action": "delete",
+    "parameter": "repo_id",
+    "scenario_type": "合法",
+    "method": "DELETE",
+    "path": "/repositories/not-exist/entities/entity-002",
+    "payload": {},
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "case_id": "DE-INVALID-002",
+    "name": "entity_id不存在",
+    "module": "entity",
+    "action": "delete",
+    "parameter": "repo_id",
+    "scenario_type": "合法",
+    "method": "DELETE",
+    "path": "/repositories/testrepo/entities/not-exist-entity",
+    "payload": {},
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "case_id": "DE-INVALID-003",
+    "name": "repo_id为非法格式",
+    "module": "entity",
+    "action": "delete",
+    "parameter": "repo_id",
+    "scenario_type": "合法",
+    "method": "DELETE",
+    "path": "/repositories/@@@/entities/entity-002",
+    "payload": {
+      "repo_id": "@@@",
+      "entity_id": "entity-002"
+    },
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "case_id": "DE-INVALID-004",
+    "name": "entity_id为非法格式",
+    "module": "entity",
+    "action": "delete",
+    "parameter": "repo_id",
+    "scenario_type": "合法",
+    "method": "DELETE",
+    "path": "/repositories/testrepo/entities/@@@",
+    "payload": {
+      "repo_id": "testrepo",
+      "entity_id": "@@@"
+    },
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "case_id": "DE-EMPTY-001",
+    "name": "repo_id缺失",
+    "module": "entity",
+    "action": "delete",
+    "parameter": "repo_id",
+    "scenario_type": "非空",
+    "method": "DELETE",
+    "path": "/repositories/entities/entity-002",
+    "payload": {
+      "entity_id": "entity-002"
+    },
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "case_id": "DE-EMPTY-002",
+    "name": "entity_id缺失",
+    "module": "entity",
+    "action": "delete",
+    "parameter": "entity_id",
+    "scenario_type": "非空",
+    "method": "DELETE",
+    "path": "/repositories/testrepo/entities",
+    "payload": {
+      "repo_id": "testrepo"
+    },
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "case_id": "DE-EMPTY-003",
+    "name": "repo_id为空字符串",
+    "module": "entity",
+    "action": "delete",
+    "parameter": "repo_id",
+    "scenario_type": "非空",
+    "method": "DELETE",
+    "path": "/repositories//entities/entity-002",
+    "payload": {
+      "repo_id": "",
+      "entity_id": "entity-002"
+    },
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "case_id": "DE-EMPTY-004",
+    "name": "entity_id为空字符串",
+    "module": "entity",
+    "action": "delete",
+    "parameter": "repo_id",
+    "scenario_type": "非空",
+    "method": "DELETE",
+    "path": "/repositories/testrepo/entities/",
+    "payload": {
+      "repo_id": "testrepo",
+      "entity_id": ""
+    },
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "__summary__": {
+      "test_case_total": 14
+    }
+  }
+]

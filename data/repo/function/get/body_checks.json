@@ -1,0 +1,26 @@
+{
+  "success": {
+    "no_error": true,
+    "must_have": [
+      "id",
+      "status",
+      "type",
+      "index_type",
+      "level",
+      "capacity",
+      "size",
+      "replications",
+      "options"
+    ],
+    "echo": [
+      "id"
+    ],
+    "detect_success": false
+  },
+  "failure": {
+    "error_required": true,
+    "error_code": null
+  },
+  "_success_desc": "响应体为仓库对象：id、type、index_type、level、capacity、size、replications、status(就绪=READY)、options(同上 13 配置键)；id 与请求一致。",
+  "_failure_desc": "失败响应体 {error, error_code}。常见：repo_id 不存在 → 404 + error_code 200001(Repository not found)；路径参数非法 → 400 + 100001。"
+}

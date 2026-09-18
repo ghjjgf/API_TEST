@@ -1,0 +1,16 @@
+{
+  "repo": {
+    "id_prefix": "testrepo-readd",
+    "type": "face",
+    "index_type": "int8",
+    "level": "ram"
+  },
+  "entity": {
+    "id": "rotate-1",
+    "data": {
+      "type": "feature",
+      "value": "__REFERENCE_FEATURE__"
+    },
+    "location_id": "loc-001"
+  }
+}

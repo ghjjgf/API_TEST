@@ -1,0 +1,145 @@
+[
+  {
+    "case_id": "GE-REPOID-VALID-001",
+    "name": "使用存在的repo_id获取实例内容",
+    "module": "entity",
+    "action": "get",
+    "parameter": "repo_id",
+    "scenario_type": "合法",
+    "method": "GET",
+    "path": "/repositories/testrepo/entities/entity-002",
+    "payload": {
+      "repo_id": "testrepo"
+    },
+    "expected": {
+      "status_code": 200
+    }
+  },
+  {
+    "case_id": "GE-REPOID-INVALID-001",
+    "name": "repo_id不存在",
+    "module": "entity",
+    "action": "get",
+    "parameter": "repo_id",
+    "scenario_type": "非法",
+    "method": "GET",
+    "path": "/repositories/not-exist/entities/entity-002",
+    "payload": {
+      "repo_id": "not-exist"
+    },
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "case_id": "GE-REPOID-INVALID-002",
+    "name": "repo_id为非法格式",
+    "module": "entity",
+    "action": "get",
+    "parameter": "repo_id",
+    "scenario_type": "非法",
+    "method": "GET",
+    "path": "/repositories/@@@/entities/entity-002",
+    "payload": {},
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "case_id": "GE-REPOID-EMPTY-001",
+    "name": "repo_id缺失",
+    "module": "entity",
+    "action": "get",
+    "parameter": "repo_id",
+    "scenario_type": "非空",
+    "method": "GET",
+    "path": "/repositories/entities/entity-002",
+    "payload": {},
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "case_id": "GE-REPOID-EMPTY-002",
+    "name": "repo_id为空字符串",
+    "module": "entity",
+    "action": "get",
+    "parameter": "repo_id",
+    "scenario_type": "非空",
+    "method": "GET",
+    "path": "/repositories//entities/entity-002",
+    "payload": {
+      "repo_id": ""
+    },
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "case_id": "GE-ENTITYID-INVALID-001",
+    "name": "entity_id不存在",
+    "module": "entity",
+    "action": "get",
+    "parameter": "entity_id",
+    "scenario_type": "非法",
+    "method": "GET",
+    "path": "/repositories/testrepo/entities/not-exist-entity",
+    "payload": {
+      "entity_id": "not-exist-entity"
+    },
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "case_id": "GE-ENTITYID-INVALID-002",
+    "name": "entity_id为非法格式",
+    "module": "entity",
+    "action": "get",
+    "parameter": "entity_id",
+    "scenario_type": "非法",
+    "method": "GET",
+    "path": "/repositories/testrepo/entities/@@@",
+    "payload": {
+      "entity_id": "@@@"
+    },
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "case_id": "GE-ENTITYID-EMPTY-001",
+    "name": "entity_id缺失",
+    "module": "entity",
+    "action": "get",
+    "parameter": "entity_id",
+    "scenario_type": "非空",
+    "method": "GET",
+    "path": "/repositories/testrepo/entities",
+    "payload": {},
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "case_id": "GE-ENTITYID-EMPTY-002",
+    "name": "entity_id为空字符串",
+    "module": "entity",
+    "action": "get",
+    "parameter": "entity_id",
+    "scenario_type": "非空",
+    "method": "GET",
+    "path": "/repositories/testrepo/entities/",
+    "payload": {
+      "entity_id": ""
+    },
+    "expected": {
+      "status_code": 500
+    }
+  },
+  {
+    "__summary__": {
+      "test_case_total": 10
+    }
+  }
+]

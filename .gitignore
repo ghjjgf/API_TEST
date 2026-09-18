@@ -1,0 +1,7 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+
+function_test/**/results/
+business/**/responses/
+performance/**/outputs/

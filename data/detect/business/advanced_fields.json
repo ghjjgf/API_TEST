@@ -1,0 +1,45 @@
+{
+  "cases": [
+    {
+      "case_id": "AF-UO-VALID-001",
+      "name": "user_object为合法结构时检测",
+      "method": "POST",
+      "path": "/ai/detect/all",
+      "payload": {
+        "image": {
+          "url": "http://175.168.10.27:30073/s3development/7fd35e4f-f12e-46c8-b902-973ab1f65498.jpg"
+        },
+        "user_object": {
+          "type": "face",
+          "rect": {
+            "x": 10,
+            "y": 10,
+            "w": 100,
+            "h": 100
+          }
+        }
+      }
+    },
+    {
+      "case_id": "AF-ROI-VALID-001",
+      "name": "rois_polygon为合法结构时检测",
+      "method": "POST",
+      "path": "/ai/detect/all",
+      "payload": {
+        "image": {
+          "url": "http://175.168.10.27:30073/s3development/7fd35e4f-f12e-46c8-b902-973ab1f65498.jpg"
+        },
+        "rois_polygon": [
+          {
+            "polygon_area": [
+              {"x": 0.1, "y": 0.1},
+              {"x": 0.5, "y": 0.1},
+              {"x": 0.5, "y": 0.5}
+            ],
+            "filter_threshold": 0.9
+          }
+        ]
+      }
+    }
+  ]
+}

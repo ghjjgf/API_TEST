@@ -1,0 +1,26 @@
+{
+  "success": {
+    "no_error": true,
+    "must_have": [
+      "id",
+      "status",
+      "type",
+      "index_type",
+      "level",
+      "capacity",
+      "size",
+      "replications",
+      "options"
+    ],
+    "echo": [
+      "id"
+    ],
+    "detect_success": false
+  },
+  "failure": {
+    "error_required": true,
+    "error_code": null
+  },
+  "_success_desc": "删除成功返回被删仓库对象（同 get 结构：id/type/status=READY/…）；随后调用 list 应确认该 repo 已消失。",
+  "_failure_desc": "失败响应体 {error, error_code}。常见：仓库不存在 → 404 + 200001；路径参数非法 → 400 + 100001。"
+}

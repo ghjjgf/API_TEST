@@ -1,0 +1,17 @@
+{
+  "success": {
+    "no_error": true,
+    "must_have": [
+      "message",
+      "results"
+    ],
+    "echo": [],
+    "detect_success": false
+  },
+  "failure": {
+    "error_required": true,
+    "error_code": null
+  },
+  "_success_desc": "响应体为 {message: \"\", results: [...]}；合法命中时 results 为数组，元素含实例 id、similarity(相似度) 等信息（命中为空时 results=[]）；message 为空字符串。",
+  "_failure_desc": "失败响应体 {error, error_code}。常见：类型/字段非法 → 400 + 100004(type must be ...)；特征解析失败 → 300003；include/repositories 为空 → 300004 等。"
+}

@@ -1,0 +1,30 @@
+{
+  "repo": {
+    "id_prefix": "entity-repo-version-test",
+    "type": "face",
+    "index_type": "int8",
+    "level": "ram",
+    "default_version": {
+      "name": "v1",
+      "feature_length": 512
+    }
+  },
+  "entity_ok": {
+    "id_prefix": "entity-version-ok",
+    "data": {
+      "type": "feature",
+      "value": "__REFERENCE_FEATURE__",
+      "version": "v1"
+    },
+    "location_id": "loc-001"
+  },
+  "entity_bad": {
+    "id_prefix": "entity-version-bad",
+    "data": {
+      "type": "feature",
+      "value": "__REFERENCE_FEATURE__",
+      "version": "v2"
+    },
+    "location_id": "loc-002"
+  }
+}

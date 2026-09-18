@@ -1,0 +1,18 @@
+{
+  "success": {
+    "no_error": true,
+    "must_have": [
+      "id"
+    ],
+    "echo": [
+      "id"
+    ],
+    "detect_success": false
+  },
+  "failure": {
+    "error_required": true,
+    "error_code": null
+  },
+  "_success_desc": "响应体为 {id: 新建实体 id}，id 与请求体 data 携带的 id 一致（若提供）；新增后可用 GET 校验实体存在(status 200)。",
+  "_failure_desc": "失败响应体 {error, error_code}。常见：repo 不存在 → 400/404；参数非法 → 400 + 100001；重复插入 → 409 + 400011 等。"
+}
